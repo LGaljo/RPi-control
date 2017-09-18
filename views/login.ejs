@@ -17,13 +17,19 @@
             <div id="res"><%= response %></div>
             <br>
             <form>
-                <div id="send"><input type="button" name="send" value="Send"></div>
+                <input id="send" type="button" name="send" value="Send">
             </form>
         </div>
     </body>
 </html>
 
 <script>
+    $("#password").keyup(function(event){
+        if(event.keyCode === 13){
+            $("#send").click();
+        }
+    });
+
     $("#send").click(function() {
         if (!$("#user").val() || !$("#password").val()) {
             $("#res").html("Vpiši vse podatke");
