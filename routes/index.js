@@ -46,11 +46,11 @@ router.get('/login', function(req, res) {
 });
 
 router.post('/log', function(req,res) {
-    req.session.login = {user: req.body.user};
     var user_name = req.body.user;
     var password = req.body.password;
     console.log("User name = "+user_name+", password is "+password);
     if (user_name === "username" && password === "password") {
+        req.session.login = {user: req.body.user};
         res.render('index', { title: 'RPi Control', response: " ", login_status: "Odjava" });
     } else {
         res.end('null');
