@@ -1,0 +1,41 @@
+body {
+  background-color: #add8e6;
+}
+
+#gumbi2 {
+    width: 100px;
+    text-align: center;
+    right: 50%;
+    bottom: 50%;
+    transform: translate(62%, 38%);
+    position: absolute;
+    font: 30px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+#odjava {
+    text-align: right;
+}
+
+#gumbi {
+    width: 100px;
+    height: 50px;
+}
+
+#r {
+    padding-top: 30px;
+    font-size: 11px;
+}
+
+#r {
+    font-size: 11px;
+}
+
+#main-content {
+    background-color: #add8e6;
+    text-align: center;
+    right: 50%;
+    bottom: 50%;
+    transform: translate(62%, 38%);
+    position: absolute;
+    font: 11px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
