@@ -73,7 +73,7 @@ router.get('/toggle', function(req, res, next) {
         try {
             doors.writeSync(0);
             setTimeout(function() {
-                //doors.writeSync(1);
+                doors.writeSync(1);
                 out = 'Toggle        ||  ' + getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
                 console.log('Toggle        ||  ' + getCurrentDateNow());
                 writeToFile(out);
