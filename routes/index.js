@@ -3,6 +3,9 @@ var fs = require('fs');
 var session = require('express-session');
 var router = express.Router();
 
+var usernameG = "username";
+var passwordG = "password";
+
 var switch1 = 23;
 var switch2 = 24;
 
@@ -13,10 +16,11 @@ var Gpio = require('onoff').Gpio,
 router.use(session({
     secret : "mylittlesecret",
     saveUninitialized: true,
-    resave: true,
+    resave: false,
     cookie : {
         maxAge : 1000*10 // 10 sekund
-    }
+    },
+    rolling: true
 }));
 
 function writeToFile(string) {
@@ -38,7 +42,7 @@ function getCurrentDateNow() {
 /* GET home page. */
 router.get('/', function(req, res, next) {
     if (!req.session.login) {
-        res.render('login', { title: 'RPi Login', response: " " });
+        res.render('login', { title: 'RPi Login'});
     } else {
         res.render('index', { title: 'RPi Control', response: "Idle" });
     }
@@ -48,7 +52,7 @@ router.get('/login', function(req, res) {
     if (req.session.login) {
         res.redirect('/');
     } else {
-        res.render('login', { title: 'RPi Login', response: " " });
+        res.render('login', { title: 'RPi Login'});
     }
 });
 
@@ -56,11 +60,11 @@ router.post('/log', function(req,res) {
     var user_name = req.body.user;
     var password = req.body.password;
     console.log("User name = "+user_name+", password is "+password);
-    if (user_name === "username" && password === "password") {
+    if (user_name === usernameG && password === passwordG) {
         req.session.login = {user: req.body.user};
-        res.render('index', { title: 'RPi Control', response: "Idle"});
+        res.send("true");
     } else {
-        res.end('null');
+        res.end("false");
     }
 });
 
@@ -69,7 +73,7 @@ router.get('/toggle', function(req, res, next) {
         try {
             doors.writeSync(0);
             setTimeout(function() {
-                doors.writeSync(1);
+                //doors.writeSync(1);
                 out = 'Toggle        ||  ' + getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
                 console.log('Toggle        ||  ' + getCurrentDateNow());
                 writeToFile(out);
