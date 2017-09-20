@@ -1,8 +1,8 @@
 # RPi-control
 
-Website created on Node.js framework.
-It can be used to toggle switches on Raspberry Pi with some modifications to code
+Website created on Node.js framework.<br>
+It's used to toggle switches on Raspberry Pi and is secured with HTTPS and self-signed certificate.<br>
 
-TO-DO:
-* Add logic for Raspberry Pi GPIO
-* Secure communication with self-signed certificate
+How to compile self-signed certificate?<br>
+Visit this site:<br>
+https://www.akadia.com/services/ssh_test_certificate.html
