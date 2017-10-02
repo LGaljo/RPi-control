@@ -11,26 +11,28 @@
     </head>
     <body>
         <div class="container">
-            <button type="button" class="btn btn-info myBtn toggle">Toggle</button>
+            <button type="button" class="btn btn-info myBtn" value="toggle">Toggle</button>
             <br>
-            <button type="button" class="btn btn-success myBtn on">Lučke ON</button>
+            <button type="button" class="btn btn-success myBtn" value="on">Lučke ON</button>
             <br>
-            <button type="button" class="btn btn-danger myBtn off">Lučke OFF</button>
-            <div id="r"><%= response %></div>
+            <button type="button" class="btn btn-danger myBtn" value="off">Lučke OFF</button>
+            <div id="r">Idle</div>
         </div>
     </body>
 </html>
 
 <script>
-    $(".toggle").click(function(){
-        window.open("/toggle",'_self',false);
-    });
-
-    $(".on").click(function(){
-        window.open("/on",'_self',false);
-    });
-
-    $(".off").click(function(){
-        window.open("/off",'_self',false);
+    $(document).ready(function(){
+        $(".myBtn").click(function() {
+            $.post(
+                "/action",
+                {
+                    action: $(this).val()
+                },
+                function(data) {
+                    $("#r").html(data.response);
+                }
+            )
+        })
     });
 </script>

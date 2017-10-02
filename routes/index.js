@@ -9,7 +9,7 @@ var passwordG = "password";
 var switch1 = 23;
 var switch2 = 24;
 
-var isOnRPi = true;
+var isOnRPi = false;
 
 if (isOnRPi) {
     var Gpio = require('onoff').Gpio,
@@ -17,13 +17,12 @@ if (isOnRPi) {
         other = new Gpio(switch2, 'high');
 }
 
-
 router.use(session({
     secret : "mylittlesecret",
     saveUninitialized: true,
     resave: false,
     cookie : {
-        maxAge : 1000*10, // 10 sekund
+        maxAge : 1000*60, // 60 sekund
         secure: true
     },
     rolling: true
@@ -87,57 +86,40 @@ router.post('/log', function(req,res) {
     }
 });
 
-router.get('/toggle', function(req, res, next) {
+router.post('/action', function(req, res, err) {
+    var action = req.body.action;
     if (isSecure(req, res)) {
         if (req.session.login) {
+            var out = "";
             try {
-                if (isOnRPi) doors.writeSync(0);
-                setTimeout(function () {
-                    if (isOnRPi) doors.writeSync(1);
-                    out = 'Toggle        ||  ' + getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
-                    console.log('Toggle        ||  ' + getCurrentDateNow());
-                    writeToFile(out);
-                }, 1500);
-            } catch (err) {
-                console.log(err);
-            }
-            res.render('index', {title: 'RPi Control', response: "Switch toggled"});
-        } else {
-            res.redirect('/login');
-        }
-    }
-});
-
-router.get('/on', function(req, res, err) {
-    if (isSecure(req, res)) {
-        if (req.session.login) {
-            try {
-                if (isOnRPi) other.writeSync(0);
-                var out = 'Relay 2 Up    ||  ' + getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
+                switch (action) {
+                    case 'toggle':
+                        if (isOnRPi) doors.writeSync(0);
+                        setTimeout(function () {
+                            if (isOnRPi) doors.writeSync(1);
+                            out = 'Toggle        ||  ' + getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
+                        }, 1500);
+                        res.send({response: 'Toggle'});
+                        break;
+                    case 'on':
+                        if (isOnRPi) other.writeSync(0);
+                        out = 'Relay 2 Up    ||  ' + getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
+                        res.send({response: 'ON'});
+                        break;
+                    case 'off':
+                        if (isOnRPi) other.writeSync(1);
+                        out = 'Relay 2 Down  ||  ' + getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
+                        res.send({response: 'OFF'});
+                        break;
+                    default:
+                        out = "Error";
+                        break;
+                }
+                console.log(out);
                 writeToFile(out);
             } catch (err) {
                 console.log(err);
             }
-            res.render('index', {title: 'RPi Control', response: "Relay Up"});
-        } else {
-            res.redirect('/login');
-        }
-    }
-});
-
-router.get('/off', function(req, res, err) {
-    if (isSecure(req, res)) {
-        if (req.session.login) {
-            try {
-                if (isOnRPi) other.writeSync(1);
-                out = 'Relay 2 Down  ||  ' + getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
-                writeToFile(out);
-            } catch (err) {
-                console.log(err);
-            }
-            res.render('index', {title: 'RPi Control', response: "Relay Down"});
-        } else {
-            res.redirect('/login');
         }
     }
 });
