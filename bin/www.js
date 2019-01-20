@@ -1,8 +1,9 @@
-let app = require('../app');
-let debug = require('debug')('rpinadzor:server');
-let http = require('http');
-let fs = require('fs');
-let https = require('https');
+const app = require('../app');
+const debug = require('debug')('rpinadzor:server');
+const http = require('http');
+const fs = require('fs');
+const https = require('https');
+const chalk = require('chalk');
 
 let privateKey;
 let certificate;
@@ -27,13 +28,13 @@ let httpServer = http.createServer(app);
 let httpsServer = https.createServer(credentials, app);
 
 httpServer.listen(unsecurePort, function () {
-    console.log("Server started at port " + unsecurePort);
+    console.log(chalk.blue("Server started at port " + unsecurePort));
 });
 httpServer.on('error', onError);
 httpServer.on('listening', onListening);
 
 httpsServer.listen(securePort, function () {
-    console.log("Server started at port " + securePort);
+    console.log(chalk.blue("Server started at port " + securePort));
 });
 httpsServer.on('error', onError);
 httpsServer.on('listening', onListening);
@@ -53,11 +54,11 @@ function onError(error) {
     // handle specific listen errors with friendly messages
     switch (error.code) {
         case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
+            console.error(chalk.red(bind + ' requires elevated privileges'));
             process.exit(1);
             break;
         case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
+            console.error(chalk.red(bind + ' is already in use'));
             process.exit(1);
             break;
         default:

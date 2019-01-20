@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Uporabnik = mongoose.model('Uporabnik');
 const raspberrypi = require('../controllers/tools/raspberrypi');
 const addOns = require('./tools/AddOns.js');
+const chalk = require('chalk');
 
 /**
  * Listen on / for GET
@@ -37,16 +38,16 @@ module.exports.action = function (req, res, next) {
                     let response = status ? "ON" : "OFF";
                     res.send({response: response});
                     res.end();
-                    out = 'Relay 2  ' + !status + '   ||  ' + addOns.getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
+                    out = 'Relay 2  ' + !status ? 'ON ' : 'OFF' + '   ||  ' + addOns.getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
                     addOns.writeToFile(out);
                     break;
                 default:
                     out = "Error";
                     break;
             }
-            console.log("OUT: " + out);
+            console.log(chalk.green("OUT " + out));
         } catch (err) {
-            console.log(err);
+            console.log(chalk.red(err));
         }
     }
 };

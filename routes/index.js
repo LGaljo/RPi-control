@@ -25,8 +25,6 @@ router.use(function (req, res, next) {
         next();
     } else {
         let host = req.headers.host.split(":")[0];
-        console.log(host);
-
         res.redirect("https://" + host + ":" + process.env.SECURE_PORT + req.url);
     }
 });

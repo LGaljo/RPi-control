@@ -1,6 +1,7 @@
 let fs = require('fs');
+const chalk = require('chalk');
 
-let getCurrentDateNow = function () {
+module.exports.getCurrentDateNow = function () {
     let currentdate = new Date();
     return currentdate.getDate() + "/"
         + (currentdate.getMonth() + 1) + "/"
@@ -10,9 +11,9 @@ let getCurrentDateNow = function () {
         + currentdate.getSeconds();
 };
 
-function writeToFile(string) {
+module.exports.writeToFile = function(string) {
     let destination;
-    if (process.env.ON_RPI) {
+    if (process.env.ON_RPI === false) {
         destination = '/home/pi/nodejs/RelayLog.txt';
     } else {
         destination = './RelayLog.txt';
@@ -20,11 +21,9 @@ function writeToFile(string) {
 
     try {
         fs.appendFile(destination, string + '\n', function (err) {
-            if (err) console.log('Error while I/O operation');
+            if (err) console.log(chalk.red('Error while I/O operation'));
         });
     } catch (e) {
-        console.log("Error writing to log file");
+        console.log(chalk.red("Error writing to log file"));
     }
-}
-
-module.exports = {getCurrentDateNow, writeToFile};
+};

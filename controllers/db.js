@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const chalk = require('chalk');
 
 let dbURI = 'mongodb://localhost:26017/rpi';
 if (process.env.ON_RPI) {
@@ -8,20 +9,20 @@ if (process.env.ON_RPI) {
 mongoose.connect(dbURI, {useNewUrlParser: true, useCreateIndex: true});
 
 mongoose.connection.on('connected', function() {
-    console.log('Mongoose je povezan na ' + dbURI);
+    console.log(chalk.blue('Mongoose je povezan na ' + dbURI));
 });
 
 mongoose.connection.on('error', function(err) {
-    console.log('Mongoose napaka pri povezavi: ' + err);
+    console.log(chalk.red('Mongoose napaka pri povezavi: ' + err));
 });
 
 mongoose.connection.on('disconnected', function() {
-    console.log('Mongoose je zaprl povezavo');
+    console.log(chalk.red('Mongoose je zaprl povezavo'));
 });
 
 var pravilnaUstavitev = function(sporocilo, povratniKlic) {
     mongoose.connection.close(function() {
-        console.log('Mongoose je zaprl povezavo preko ' + sporocilo);
+        console.log(chalk.red('Mongoose je zaprl povezavo preko ' + sporocilo));
         povratniKlic();
     });
 };

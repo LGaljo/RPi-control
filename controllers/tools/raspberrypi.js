@@ -1,4 +1,5 @@
-let piblaster = require('pi-blaster.js');
+const piblaster = require('pi-blaster.js');
+const chalk = require('chalk');
 
 let doors;
 let other;
@@ -15,15 +16,15 @@ if (process.env.ON_RPI === false) {
 }
 
 module.exports.unlock = function () {
-    if (process.env.ON_RPI) doors.write(0, (error) => {
+    if (process.env.ON_RPI === false) doors.write(0, (error) => {
         if (error) {
-            console.log("Napaka pri odklepu: ", error);
+            console.log(chalk.red("Napaka pri odklepu: "), error);
         }
     });
     setTimeout(function () {
-        if (process.env.ON_RPI) doors.write(1, (error) => {
+        if (process.env.ON_RPI === false) doors.write(1, (error) => {
             if (error) {
-                console.log("Napaka pri odklepu: ", error);
+                console.log(chalk.red("Napaka pri odklepu: "), error);
             }
         });
     }, 1500);
@@ -32,7 +33,7 @@ module.exports.unlock = function () {
 
 let status = 0;
 module.exports.toggleSecond = function () {
-    if (process.env.ON_RPI) {
+    if (process.env.ON_RPI === false) {
         other.writeSync(status);
     }
     if (status === 1) {
@@ -44,20 +45,20 @@ module.exports.toggleSecond = function () {
 };
 
 module.exports.setColor = function (red, green, blue) {
-    if (process.env.ON_RPI) {
+    if (process.env.ON_RPI === false) {
         piblaster.setPwm(pinRED, red / 255, (error) => {
             if (error) {
-                console.log(error);
+                console.log(chalk.red(error));
             }
         });
         piblaster.setPwm(pinGREEN, green / 255, (error) => {
             if (error) {
-                console.log(error);
+                console.log(chalk.red(error));
             }
         });
         piblaster.setPwm(pinBLUE, blue / 255, (error) => {
             if (error) {
-                console.log(error);
+                console.log(chalk.red(error));
             }
         });
     }
