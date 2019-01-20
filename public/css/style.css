@@ -6,15 +6,18 @@ body {
     position: absolute;
 }
 
-.send {
-    margin-top: 10px;
-}
-
-.myBtn {
-    margin-top: 20px;
+.indexBtn {
     width: 100px;
+    margin-top: 20px;
 }
 
-#r {
+.ligthsBtn {
+    display: block;
+    width: 100%;
     margin-top: 20px;
+}
+
+#response_text {
+    margin-top: 10px;
+    display: block;
 }

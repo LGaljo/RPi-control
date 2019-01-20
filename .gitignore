@@ -2,7 +2,5 @@
 RelayLog.txt
 node_modules/
 package-lock.json
-sslcert/server.crt
-sslcert/server.csr
-sslcert/server.key
-sslcert/server.key.org
+sslcert/
+.env
