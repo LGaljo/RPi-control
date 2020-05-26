@@ -1,0 +1,18 @@
+extends layout.pug
+
+block includes
+    link(rel='stylesheet', href='/css/lights.css')
+    script(src='/js/lights.js')
+
+block content
+    .container-fluid
+        #colour_box.row
+            form(method='post' action='/lights')
+                input#r1.slider1(type='range' min='0' max='255' value='0' name='red')
+                br
+                input#r2.slider2(type='range' min='0' max='255' value='0' name='green')
+                br
+                input#r3.slider3(type='range' min='0' max='255' value='0' name='blue')
+                button.ligthsBtn.btn.btn-info.off(type='button') OFF
+                br
+                a.ligthsBtn.btn.btn-info(role='button' href='/') Nazaj

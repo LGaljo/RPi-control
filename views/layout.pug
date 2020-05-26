@@ -1,0 +1,15 @@
+html
+    head
+        title #{title}
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+
+        script(src='/js/http_code.jquery.com_jquery-3.5.1.js')
+        script(src='/js/http_cdn.jsdelivr.net_npm_popper.js@1.16.0_dist_umd_popper.js')
+        link(rel='stylesheet', href='/css/http_stackpath.bootstrapcdn.com_bootstrap_4.5.0_css_bootstrap.css')
+        script(src='/js/http_stackpath.bootstrapcdn.com_bootstrap_4.5.0_js_bootstrap.js')
+
+        link(rel='stylesheet', href='/css/style.css')
+        block includes
+
+    body
+        block content

@@ -1,0 +1,13 @@
+extends layout.pug
+
+block includes
+    script(src='/js/index.js')
+
+block content
+    .container-fluid
+        a#ligths_btn.btn.btn-warning.indexBtn(role='button' href='/lights') Barve
+        br
+        button#unlock.btn.btn-info.indexBtn(onclick='btn_un()') Odkleni
+        br
+        button#toggle.btn.btn-success.indexBtn(onclick='btn_to()') Toggle
+        small#response_text.text-center.text-muted Čakam

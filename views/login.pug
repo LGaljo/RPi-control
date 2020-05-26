@@ -1,0 +1,13 @@
+extends layout.pug
+
+block content
+    .container-fluid
+        .row
+            form.form-signin(action='/login' method='post')
+                .form-group.text-center
+                    label Prijava
+                    input(type='hidden' name='username' value='galjot')
+                    input.form-control(type='password' name='password' aria-describedby='emailHelp' placeholder='Geslo' required='' autofocus='')
+                    small#emailHelp.form-text.text-muted
+                .text-center
+                    button.btn.btn-md.btn-info(type='submit') Nadaljuj
