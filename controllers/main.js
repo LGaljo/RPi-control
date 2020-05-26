@@ -30,7 +30,7 @@ module.exports.action = function (req, res, next) {
                     raspberrypi.unlock();
                     res.send({response: "Odklenjeno"});
                     res.end();
-                    out = 'Unlock        ||  ' + addOns.getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
+                    out = 'Unlock || ' + addOns.getCurrentDateNow() + ' ' + 'User-Agent: ' + req.headers['user-agent'];
                     addOns.writeToFile(out);
                     break;
                 case 'toggle':
@@ -38,14 +38,14 @@ module.exports.action = function (req, res, next) {
                     let response = status ? "ON" : "OFF";
                     res.send({response: response});
                     res.end();
-                    out = 'Relay 2  ' + !status ? 'ON ' : 'OFF' + '   ||  ' + addOns.getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
+                    out = 'Relay 2  ' + status ? 'ON ' : 'OFF' + '   ||  ' + addOns.getCurrentDateNow() + '   ' + 'User-Agent: ' + req.headers['user-agent'];
                     addOns.writeToFile(out);
                     break;
                 default:
                     out = "Error";
                     break;
             }
-            console.log(chalk.green("OUT " + out));
+            console.log(chalk.green(out));
         } catch (err) {
             console.log(chalk.red(err));
         }

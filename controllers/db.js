@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const chalk = require('chalk');
 
-let dbURI = 'mongodb://localhost:26017/rpi';
-if (process.env.ON_RPI) {
-    // DB URI to local mongo database
-    dbURI = 'mongodb://192.168.99.100:32768/rpi';
-}
-mongoose.connect(dbURI, {useNewUrlParser: true, useCreateIndex: true});
+let dbURI = process.env.MONGO_CONN_PATH;
+mongoose.connect(dbURI, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+});
 
 mongoose.connection.on('connected', function() {
     console.log(chalk.blue('Mongoose je povezan na ' + dbURI));
@@ -20,8 +20,8 @@ mongoose.connection.on('disconnected', function() {
     console.log(chalk.red('Mongoose je zaprl povezavo'));
 });
 
-var pravilnaUstavitev = function(sporocilo, povratniKlic) {
-    mongoose.connection.close(function() {
+const pravilnaUstavitev = function (sporocilo, povratniKlic) {
+    mongoose.connection.close(function () {
         console.log(chalk.red('Mongoose je zaprl povezavo preko ' + sporocilo));
         povratniKlic();
     });
@@ -50,5 +50,5 @@ process.on('SIGTERM', function() {
 
 require('./models');
 
-//let dodajUporabnika = require('./addUser');
-//dodajUporabnika.dodajUporabnika();
+// let dodajUporabnika = require('./addUser');
+// dodajUporabnika.dodajUporabnika();
